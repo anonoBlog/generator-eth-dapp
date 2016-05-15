@@ -1,6 +1,6 @@
 {
   "name": "generator-eth-dapp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Genreate a distributed app including smart contract to run on the ethereum network",
   "main": "index.js",
   "scripts": {
