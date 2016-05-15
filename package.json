@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/anonoBlog/generator-eth-dapp#readme",
   "dependencies": {
+    "es6-promise": "^3.2.1",
     "yeoman-generator": "^0.23.3"
   }
 }

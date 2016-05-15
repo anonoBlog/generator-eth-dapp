@@ -1,12 +1,34 @@
 var generators = require('yeoman-generator');
 var through = require('through2');
 var fs = require('fs');
-
 var passThroughStream = through.obj(function(chunk, enc, callback) {
   this.push(chunk);
   callback();
 })
 
+function getAccount(data) {
+  return ('' + data)
+    .match(/Address: \{\w*\}/)[0]
+    .match(/\w*(?=\})/)[0];
+}
+var createEthAddress = function(yo) {
+  return new Promise((resolve, reject) => {
+    var gethResult = yo.spawnCommand('geth', ['--networkid', '12345', '--genesis', 'test/genesis-no-account.json', '--datadir', '.test_blockchain', '--password', 'local-password', 'account', 'new'], {
+      stdio: 'pipe'
+    });
+    gethResult.stdout.on('data', (data) => {
+      const account = getAccount(data);
+      if (account) {
+        resolve(account);
+      }
+    });
+    gethResult.stderr.on('data', (data) => {
+      'error creating account, geth returned error:'
+      console.error(data);
+      reject();
+    });
+  });
+};
 
 module.exports = generators.Base.extend({
   constructor: function() {
@@ -15,40 +37,29 @@ module.exports = generators.Base.extend({
 
   genAccount: function() {
     console.log('method 1 just ran');
-    this.template('_.genesis.json', 'test/genesis.json');
+    this.template('_.genesis.json', 'test/genesis-no-accounts.json');
     this.template('_.geth-local.sh', 'geth-local.sh');
-    this.registerTransformStream(passThroughStream).on('end', () => {
+    this.template('_.local-password', 'local-password');
+    this.fs.commit(() => {
       fs.chmodSync(
         'geth-local.sh',
-        '755');
+        '755'
+      );
+      Promise.all([
+        createEthAddress(this),
+        createEthAddress(this),
+        createEthAddress(this),
+        createEthAddress(this),
+      ]).then((addresses) => {
+        console.log('created addresses: ' + addresses);
+        this.template('_.genesis-with-addresses.json.ejs', 'test/genesis.json', {
+          addresses: addresses
+        });
+      })
     });
+
   },
   genScripts: function() {
     console.log('method 2 just ran');
   }
 });
-
-// gulp.task('generate-account', function() {
-//   return gulp.src('', {
-//     read: false
-//   }).pipe(shell([
-//     'rm -rf test',
-//     'mkdir test',
-//     'cp genesis.default.json test/genesis.json'
-//   ], {
-//     verbose: true
-//   }))
-// });
-
-// gulp.task('gen-scripts', function() {
-//   return gulp.src('', {
-//     read: false
-//   }).pipe(shell(
-//     [
-//       'echo \'geth --networkid 12345 --genesis test/genesis.json --datadir .test_blockchain console\' > eth-local.sh',
-//       'chmod +x eth-local.sh'
-//     ], {
-//       verbose: true
-//     }
-//   ));
-// });
