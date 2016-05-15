@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/anonoBlog/generator-eth-app.git"
+    "url": "git+ssh://git@github.com/anonoBlog/generator-eth-dapp.git"
   },
   "files": [
     "app"
@@ -24,9 +24,9 @@
   "author": "anonoBlog",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/anonoBlog/generator-eth-app/issues"
+    "url": "https://github.com/anonoBlog/generator-eth-dapp/issues"
   },
-  "homepage": "https://github.com/anonoBlog/generator-eth-app#readme",
+  "homepage": "https://github.com/anonoBlog/generator-eth-dapp#readme",
   "dependencies": {
     "yeoman-generator": "^0.23.3"
   }
