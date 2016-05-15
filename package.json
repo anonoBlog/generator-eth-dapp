@@ -1,0 +1,33 @@
+{
+  "name": "generator-eth-dapp",
+  "version": "1.0.0",
+  "description": "Genreate a distributed app including smart contract to run on the ethereum network",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/anonoBlog/generator-eth-app.git"
+  },
+  "files": [
+    "app"
+  ],
+  "keywords": [
+    "yeoman-generator",
+    "Ethereum",
+    "Distributed",
+    "dapp",
+    "geth",
+    "solidity"
+  ],
+  "author": "anonoBlog",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/anonoBlog/generator-eth-app/issues"
+  },
+  "homepage": "https://github.com/anonoBlog/generator-eth-app#readme",
+  "dependencies": {
+    "yeoman-generator": "^0.23.3"
+  }
+}
